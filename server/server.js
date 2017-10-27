@@ -10,8 +10,10 @@ const publicPath=path.join(__dirname,'../public');
 app.use(express.static(publicPath));
 io.on('connection',(socket)=>{
 	console.log("Connected to Client");
-	socket.emit("newMessage",{from:"public",text:"Hey what's up?",createAt:123});
-    socket.on("createMessage",function (data){console.log(data)});
+	
+    socket.on("createMessage",function (data){console.log(data);
+    	io.emit("newMessage",{from:data.from,text:data.text,createAt:new Date().getTime() })
+    });
 	socket.on('disconnect',()=>{
 	console.log("Disconnected to Client")
 });
