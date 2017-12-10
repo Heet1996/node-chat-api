@@ -6,7 +6,7 @@ var app = express();
 var server=http.createServer(app);
 var io=socketIO(server);
 var port=process.env.PORT || 3000;
-var {generateMessage}=require('./utility/message.js')
+var {generateMessage,generateLocationMessage}=require('./utility/message.js')
 const publicPath=path.join(__dirname,'../public');
 app.use(express.static(publicPath));
 io.on('connection',(socket)=>{
@@ -15,16 +15,19 @@ io.on('connection',(socket)=>{
 	socket.broadcast.emit("newMessage",generateMessage("Admin" ,"New User join in"));
 
     socket.on("createMessage",function (data,callback){
-    	console.log(data);
-
-    	io.emit("newMessage",generateMessage(data.from,data.text ));
+    	
+        io.emit("newMessage",generateMessage(data.from,data.text ));
     	callback();
     });
-	socket.on('disconnect',()=>{
-	console.log("Disconnected to Client")
-});
-});
+    socket.on("shareLocation",function(position){ 
+    	
+    	io.emit("newLocationMessage",generateLocationMessage("Admin",position.lat,position.long));
 
+    });
+	
+    socket.on('disconnect',()=>{
+	console.log("Disconnected to Client");});
+});
 server.listen(port,()=>{
   console.log("Server is upon port 3000");
 });

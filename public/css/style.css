@@ -1,0 +1,48 @@
+*
+{
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+  font-size: .95rem;
+}
+ul, li {
+  list-style-position: inside;
+}
+ .people{
+  font-weight:600;
+  text-align:center;
+  font-size: 1.5rem;
+  color:#d4d8dd;
+  margin-top: 2vh;
+
+}
+.chat_people
+{
+	  background-color:rgba(39,107,130,1);
+	  height: 100vh;
+}
+.chat_message
+{
+	  flex-grow: 1;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  height: 90vh;
+}
+.input-chat
+{
+	margin-left:15px;
+	padding:10px;
+	width:50vw;
+}
+#messages
+{
+	 list-style-type: none;
+  padding: 10px;
+
+}
+.footer
+{
+	
+	background-color:#d0d9db;
+	padding:10px;
+
+}
