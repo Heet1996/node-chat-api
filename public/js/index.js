@@ -7,10 +7,18 @@ socket.on("disconnect",()=>{
 				console.log("Disconnected to server");
 	});
 socket.on("newMessage",function(message){
-	var li=jQuery("<li></li>");
-	li.text(`${message.from}: ${message.text}`);
-	jQuery('#messages').append(li);
+	var time=moment(message.createAt).format("h:mm a");
+	var template=jQuery('#message-template').html(); 
+
+	var html=Mustache.render(template,{
+		from: message.from,
+		text: message.text,
+		createAt: time});
+
+	jQuery('#messages').append(html);
+
 });
+
 jQuery("#message-box").on("submit",function(e){
 e.preventDefault();
 var textMessage=jQuery("[name=message]");
@@ -23,7 +31,7 @@ locationbutton.on("click",function(){
 		return alert('Location not supported by your browser');
 	}
 	 locationbutton.attr("disabled","disabled").text('Sending Location....');
-
+      
 
 
 	navigator.geolocation.getCurrentPosition(function(position){ 
@@ -39,10 +47,13 @@ locationbutton.on("click",function(){
 
 });
 socket.on("newLocationMessage",function(location){
-			var li=jQuery("<li></li>");
-			var a=jQuery('<a target="_blank">My Current Location</a>');
-			li.text(`${location.from}:`);
-			a.attr('href',location.url);
-			li.append(a);
-			jQuery("#messages").append(li);
+			
+			var time=moment(location.createAt).format("h:mm a");
+			
+			
+			
+			
+			var template=jQuery("#send_location").html();
+			var html=Mustache.render(template,{from:location.from,createAt:time,url:location.url});
+			jQuery("#messages").append(html);
 		});
