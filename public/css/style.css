@@ -1,8 +1,13 @@
 *
 {
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
- 
+ 	
 }
+body
+{
+	overflow-y: hidden;
+}
+
 ul, li {
   list-style-position: inside;
 }
@@ -21,10 +26,10 @@ ul, li {
 }
 .chat_message
 {
-	  flex-grow: 1;
+flex-grow: 1;
   overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-  height: 90vh;
+    height:90vh;
+  
 }
 .input-chat
 {
@@ -35,14 +40,22 @@ ul, li {
 #messages
 {
 	 list-style-type: none;
-	 margin-top: 20px
+	 margin:20px
  }
 .footer
 {
 	
 	background-color:#d0d9db;
-	padding:10px;
+	  display: flex;
+  padding: 10px;
+  /*height: 60px;*/
+  flex-shrink: 0;
 
+}
+.footer form
+{
+	flex-grow: 1;
+  display: flex;
 }
 .message_header {
   display: flex;

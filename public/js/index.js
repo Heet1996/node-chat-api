@@ -1,4 +1,22 @@
 var socket = io();
+function scrollBottom()
+{
+	//selector
+	var messages=jQuery("#messages");
+	var chat_message=jQuery(".chat_message");
+
+	var clientHeight=chat_message.prop("clientHeight");
+	var scrollHeight=chat_message.prop("scrollHeight");
+	var scrollTop=chat_message.prop("scrollTop");
+	var newMessageHeight=messages.children('li:last-child').innerHeight();
+	var lastMessageHeight=messages.children('li:last-child').prev().innerHeight();
+	
+	if((scrollTop+clientHeight+newMessageHeight+lastMessageHeight+20)>=scrollHeight)
+	{	
+		chat_message.scrollTop(scrollHeight); 
+	}
+	
+}
 socket.on("connect",()=>{
 		console.log("Connected to server");
 		});
@@ -16,6 +34,7 @@ socket.on("newMessage",function(message){
 		createAt: time});
 
 	jQuery('#messages').append(html);
+	scrollBottom();
 
 });
 
@@ -31,10 +50,7 @@ locationbutton.on("click",function(){
 		return alert('Location not supported by your browser');
 	}
 	 locationbutton.attr("disabled","disabled").text('Sending Location....');
-      
-
-
-	navigator.geolocation.getCurrentPosition(function(position){ 
+     navigator.geolocation.getCurrentPosition(function(position){ 
 		
 		var lat=position.coords.latitude;
 		var long=position.coords.longitude;
@@ -49,11 +65,8 @@ locationbutton.on("click",function(){
 socket.on("newLocationMessage",function(location){
 			
 			var time=moment(location.createAt).format("h:mm a");
-			
-			
-			
-			
-			var template=jQuery("#send_location").html();
+		    var template=jQuery("#send_location").html();
 			var html=Mustache.render(template,{from:location.from,createAt:time,url:location.url});
 			jQuery("#messages").append(html);
+			scrollBottom();
 		});
