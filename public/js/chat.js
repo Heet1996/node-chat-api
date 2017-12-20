@@ -17,13 +17,42 @@ function scrollBottom()
 	}
 	
 }
+
+
 socket.on("connect",()=>{
-		console.log("Connected to server");
+		
+		var params=jQuery.deparam(window.location.search);
+		socket.emit("join",params,function(err){
+			if(err)
+			{	
+				window.location.href="/";
+				alert(err);
+			}
+			else{
+					
+					console.log("No error");
+
+				}
+
 		});
+		});
+
 
 socket.on("disconnect",()=>{
 				console.log("Disconnected to server");
 	});
+
+
+socket.on("updateUserList",(userArray)=>{
+					
+					var ol=jQuery("<ol></ol>");
+					userArray.forEach(function (user){
+						ol.append(jQuery("<li></li>").text(user));
+					});			
+				    jQuery("#users").html(ol);
+				});
+
+
 socket.on("newMessage",function(message){
 	var time=moment(message.createAt).format("h:mm a");
 	var template=jQuery('#message-template').html(); 
@@ -38,11 +67,14 @@ socket.on("newMessage",function(message){
 
 });
 
+
 jQuery("#message-box").on("submit",function(e){
 e.preventDefault();
 var textMessage=jQuery("[name=message]");
-socket.emit("createMessage",{from:"User",text:" "+textMessage.val()},function(){textMessage.val('')});
+socket.emit("createMessage",{text:" "+textMessage.val()},function(err){if(err){alert(err);} textMessage.val('')});
 });
+
+
 var locationbutton=jQuery("#send-location");
 locationbutton.on("click",function(){
 	if(!navigator.geolocation)
@@ -62,6 +94,7 @@ locationbutton.on("click",function(){
 	});
 
 });
+
 socket.on("newLocationMessage",function(location){
 			
 			var time=moment(location.createAt).format("h:mm a");

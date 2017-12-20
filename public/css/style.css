@@ -28,7 +28,7 @@ ul, li {
 {
 flex-grow: 1;
   overflow-y: scroll;
-    height:90vh;
+    height:89vh;
   
 }
 .input-chat
@@ -76,4 +76,12 @@ flex-grow: 1;
 font-size:0.85em;
 margin-bottom:10px;
 
+}
+/*Style for Index Page*/
+.box
+{
+	background-color: #dcdeea;
+	margin-top:25vh;
+	padding:20px;
+	border-radius:10px; 
 }
